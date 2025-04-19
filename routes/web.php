@@ -15,7 +15,7 @@ Route::group(['prefix' => 'kontak'], function () {
     Route::post('/list', [KontakController::class, 'list']);
     Route::get('/create', [KontakController::class, 'create']);
     Route::post('/store', [KontakController::class, 'store']);
-    Route::get('/{id}', [KontakController::class, 'show']);
+    Route::get('/{id}/show', [KontakController::class, 'show']);
     Route::get('/{id}/edit', [KontakController::class, 'edit']);
     Route::put('/{id}', [KontakController::class, 'update']);
     Route::get('{id}/delete', [KontakController::class, 'confirm']);

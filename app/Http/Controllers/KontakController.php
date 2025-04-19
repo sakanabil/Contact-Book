@@ -79,6 +79,12 @@ class KontakController extends Controller
         }
     }
 
+    public function show(string $id)
+    {
+        $kontak = KontakModel::find($id);
+        return view('kontak.show', ['kontak' => $kontak]);
+    }
+
     public function edit(string $id)
     {
         $kontak = KontakModel::find($id);
