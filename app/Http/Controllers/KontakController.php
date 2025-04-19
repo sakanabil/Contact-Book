@@ -36,12 +36,90 @@ class KontakController extends Controller
         return DataTables::of($kontak)
             ->addIndexColumn()
             ->addColumn('aksi', function ($kontak) {
-                $btn  = '<button onclick="modalAction(\'' . url('/kontak/' . $kontak->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/kontak/' . $kontak->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/kontak/' . $kontak->id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn  = '<button onclick="modalAction(\'' . url('/kontak/' . $kontak->id . '/show') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/kontak/' . $kontak->id . '/edit') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/kontak/' . $kontak->id . '/delete') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
             })
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
+    public function create()
+    {
+        return view('kontak.create'); // file view modal tambah
+    }
+
+    public function store(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'nama' => 'required|string|max:100',
+                'nomor_hp' => 'required|string|max:15',
+                'email' => 'required|email|unique:kontak,email',
+                'alamat' => 'required|string|max:255'
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            KontakModel::create($request->all());
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data kontak berhasil disimpan'
+            ]);
+        }
+    }
+
+    public function edit(string $id)
+    {
+        $kontak = KontakModel::find($id);
+        return view('kontak.edit', ['kontak' => $kontak]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'nama' => 'required|string|max:100',
+                'nomor_hp' => 'required|string|max:15',
+                'email' => 'nullable|email',
+                'alamat' => 'nullable|string|max:255',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $kontak = KontakModel::find($id);
+            if ($kontak) {
+                $kontak->update($request->all());
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diupdate.'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan.'
+                ]);
+            }
+        }
+
+        return redirect('/');
+    }
+
 }
