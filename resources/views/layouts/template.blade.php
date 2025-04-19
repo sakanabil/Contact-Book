@@ -20,9 +20,74 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css')}}">
 
+  <!-- Custom dark mode styles -->
+  <style>
+    /* Dark mode overrides */
+    .dark-mode .table-bordered {
+      border: 1px solid #6c757d;
+    }
+    .dark-mode .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(80, 80, 80, 0.2);
+    }
+    .dark-mode .card {
+      box-shadow: 0 0 1px rgba(255, 255, 255, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .dark-mode .table {
+      color: #fff;
+    }
+    .dark-mode a:not(.btn) {
+      color: #3f8af3;
+    }
+    .dark-mode .btn-default {
+      background-color: #343a40;
+      border-color: #6c757d;
+      color: #fff;
+    }
+    .dark-mode .modal-content {
+      background-color: #343a40;
+      color: #fff;
+    }
+    .dark-mode .close {
+      color: #fff;
+      text-shadow: 0 1px 0 #000;
+    }
+    .dark-mode .form-control {
+      background-color: #454d55;
+      border-color: #6c757d;
+      color: #fff;
+    }
+    .dark-mode .form-control:focus {
+      background-color: #4b545c;
+    }
+    .dark-mode .page-item.disabled .page-link {
+      background-color: #343a40;
+      border-color: #6c757d;
+    }
+    .dark-mode .dataTables_wrapper .dataTables_processing {
+      background-color: rgba(30, 30, 30, 0.7);
+      color: #fff;
+    }
+    .dark-mode .dataTables_info {
+      color: #fff;
+    }
+    .dark-mode label {
+      color: #fff;
+    }
+    .dark-mode .dataTables_filter input {
+      background-color: #454d55;
+      border-color: #6c757d;
+      color: #fff;
+    }
+    .dark-mode .dataTables_length select {
+      background-color: #454d55;
+      border-color: #6c757d;
+      color: #fff;
+    }
+  </style>
+
   @stack('css') <!-- Digunakan untuk memanggil custom css dari perintah push css pada misig-mising view -->
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini dark-mode"> <!-- Added dark-mode class here -->
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
@@ -33,11 +98,22 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ url('/') }}" class="brand-link">
-      <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{ asset('adminlte/dist/img/contact-book.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Contact Book</span>
     </a>
 
     <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="adminlte/dist/img/fotogw.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">Saka Nabil</a>
+        </div>
+      </div>
+
     @include('layouts.sidebar')
     <!-- /.sidebar -->
   </aside>
