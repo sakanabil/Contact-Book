@@ -18,6 +18,8 @@ Route::group(['prefix' => 'kontak'], function () {
     Route::get('/{id}', [KontakController::class, 'show']);
     Route::get('/{id}/edit', [KontakController::class, 'edit']);
     Route::put('/{id}', [KontakController::class, 'update']);
+    Route::get('{id}/delete', [KontakController::class, 'confirm']);
+    Route::delete('/{id}/delete', [KontakController::class, 'delete']);
     Route::delete('/{id}', [KontakController::class, 'destroy']);
 });
 

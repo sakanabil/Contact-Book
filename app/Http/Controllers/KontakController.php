@@ -118,7 +118,34 @@ class KontakController extends Controller
                 ]);
             }
         }
+        return redirect('/');
+    }
 
+    public function confirm(string $id)
+    {
+        $kontak = KontakModel::find($id);
+        return view('kontak.confirm', ['kontak' => $kontak]);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        // cek apakah request dari ajax
+        if ($request->ajax() || $request->wantsJson()) {
+            $kontak = KontakModel::find($id);
+            if ($kontak) {
+                $kontak->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data kontak berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data kontak tidak ditemukan'
+                ]);
+            }
+        }
+        
         return redirect('/');
     }
 
