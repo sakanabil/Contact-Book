@@ -24,12 +24,12 @@
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input value="" type="email" name="email" id="email" class="form-control" required>
+                    <input value="" type="email" name="email" id="email" class="form-control">
                     <small id="error-email" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Alamat</label>
-                    <textarea name="alamat" id="alamat" class="form-control" rows="3" required></textarea>
+                    <textarea name="alamat" id="alamat" class="form-control" rows="3"></textarea>
                     <small id="error-alamat" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -50,8 +50,8 @@
             rules: {
                 nama: { required: true, maxlength: 100 },
                 nomor_hp: { required: true, maxlength: 15 },
-                email: { required: true, email: true },
-                alamat: { required: true, maxlength: 255 }
+                email: { email: true },
+                alamat: { maxlength: 255 }
             },
             submitHandler: function (form) {
                 // Submit data dengan AJAX

@@ -62,8 +62,8 @@ class KontakController extends Controller
             $rules = [
                 'nama' => 'required|string|max:100',
                 'nomor_hp' => 'required|string|max:15',
-                'email' => 'required|email|unique:kontak,email',
-                'alamat' => 'required|string|max:255'
+                'email' => 'nullable|email|unique:kontak,email',
+                'alamat' => 'nullable|string|max:255'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -109,7 +109,7 @@ class KontakController extends Controller
             $rules = [
                 'nama' => 'required|string|max:100',
                 'nomor_hp' => 'required|string|max:15',
-                'email' => 'nullable|email',
+                'email' => 'nullable|email|unique:kontak,email',
                 'alamat' => 'nullable|string|max:255',
             ];
 
