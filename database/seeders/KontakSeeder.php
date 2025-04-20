@@ -7,16 +7,18 @@ use Illuminate\Support\Facades\DB;
 
 class KontakSeeder extends Seeder
 {
+    // Fungsi untuk menjalankan seeder
     public function run()
     {
+        // Menyisipkan data dummy ke tabel 'kontak'
         DB::table('kontak')->insert([
             [
-                'nama' => 'Budi Santoso',
-                'nomor_hp' => '081234567890',
-                'email' => 'budi@example.com',
-                'alamat' => 'Jl. Merpati No. 10, Jakarta',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'nama' => 'Budi Santoso', // Nama kontak
+                'nomor_hp' => '081234567890', // Nomor HP
+                'email' => 'budi@example.com', // Alamat email
+                'alamat' => 'Jl. Merpati No. 10, Jakarta', // Alamat rumah
+                'created_at' => now(), // Timestamp saat data dibuat
+                'updated_at' => now(), // Timestamp saat data diperbarui
             ],
             [
                 'nama' => 'Siti Aminah',

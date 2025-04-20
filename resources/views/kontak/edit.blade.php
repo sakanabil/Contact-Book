@@ -1,10 +1,13 @@
 @empty($kontak)
+    <!-- Jika data kontak kosong, tampilkan pesan kesalahan -->
     <div id="modal-master" class="modal-dialog" role="document">
         <div class="modal-content">
+            <!-- Header modal -->
             <div class="modal-header">
                 <h5 class="modal-title">Kesalahan</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
+            <!-- Body modal -->
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
@@ -15,15 +18,18 @@
         </div>
     </div>
 @else
+    <!-- Jika data kontak ditemukan, tampilkan form edit -->
     <form action="{{ url('/kontak/' . $kontak->id) }}" method="POST" id="form-edit">
-        @csrf
-        @method('PUT')
+        @csrf <!-- Token keamanan untuk Laravel -->
+        @method('PUT') <!-- Metode PUT untuk update data -->
         <div id="modal-master" class="modal-dialog" role="document">
             <div class="modal-content">
+                <!-- Header modal -->
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Data Kontak</h5>
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                 </div>
+                <!-- Body modal dengan form input -->
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nama</label>
@@ -46,6 +52,7 @@
                         <small id="error-alamat" class="error-text text-danger"></small>
                     </div>
                 </div>
+                <!-- Footer modal dengan tombol -->
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -53,8 +60,11 @@
             </div>
         </div>
     </form>
+
+    <!-- Script validasi dan submit via AJAX -->
     <script>
         $(document).ready(function () {
+            // Inisialisasi validasi form menggunakan jQuery Validation
             $("#form-edit").validate({
                 rules: {
                     nama: { required: true, maxlength: 100 },
@@ -63,17 +73,20 @@
                     alamat: { maxlength: 255 }
                 },
                 submitHandler: function (form) {
+                    // Submit form via AJAX jika validasi berhasil
                     $.ajax({
                         url: form.action,
                         type: form.method,
-                        data: $(form).serialize(),
+                        data: $(form).serialize(), // Serialisasi data form
                         success: function (response) {
                             console.log(response);
                             if (response.status) {
+                                // Jika sukses, tutup modal dan reload tabel
                                 $('#myModal').modal('hide');
                                 Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
                                 $('#table_kontak').DataTable().ajax.reload();
                             } else {
+                                // Tampilkan error dari validasi backend
                                 $('.error-text').text('');
                                 $.each(response.msgField, function (prefix, val) {
                                     $('#error-' + prefix).text(val[0]);
@@ -82,17 +95,20 @@
                             }
                         }
                     });
-                    return false;
+                    return false; // Cegah form submit biasa
                 },
-                errorElement: 'span',
+                errorElement: 'span', // Elemen error
                 errorPlacement: function (error, element) {
+                    // Tempatkan error di bawah input
                     error.addClass('invalid-feedback');
                     element.closest('.form-group').append(error);
                 },
                 highlight: function (element) {
+                    // Tambahkan class jika input error
                     $(element).addClass('is-invalid');
                 },
                 unhighlight: function (element) {
+                    // Hapus class jika input tidak error
                     $(element).removeClass('is-invalid');
                 }
             });

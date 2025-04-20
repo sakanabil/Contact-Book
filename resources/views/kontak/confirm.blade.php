@@ -1,14 +1,15 @@
 @empty($kontak)
+    <!-- Jika data kontak tidak ditemukan -->
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <!-- Modal Header -->
+            <!-- Header -->
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
 
-            <!-- Modal body -->
+            <!-- Body -->
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
@@ -19,24 +20,27 @@
         </div>
     </div>
 @else
+    <!-- Form konfirmasi hapus -->
     <form action="{{ url('/kontak/' . $kontak->id . '/delete') }}" method="POST" id="form-delete">
-        @csrf
-        @method('DELETE')
+        @csrf <!-- CSRF protection -->
+        @method('DELETE') <!-- Method spoofing untuk request DELETE -->
+        
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <!-- Modal Header -->
+                <!-- Header -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Hapus Data Kontak</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
 
-                <!-- Modal body -->
+                <!-- Body -->
                 <div class="modal-body">
                     <div class="alert alert-warning">
                         <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
                         Apakah Anda ingin menghapus data seperti di bawah ini?
                     </div>
+                    <!-- Tampilkan data yang akan dihapus -->
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
                             <th class="text-right col-3">Nama :</th>
@@ -57,7 +61,7 @@
                     </table>
                 </div>
 
-                <!-- Modal footer -->
+                <!-- Footer -->
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
                     <button type="submit" class="btn btn-primary">Ya, Hapus</button>
@@ -65,10 +69,12 @@
             </div>
         </div>
     </form>
+
+    <!-- Validasi dan AJAX hapus -->
     <script>
         $(document).ready(function() {
             $("#form-delete").validate({
-                rules: {},
+                rules: {}, // Tidak ada input, jadi tidak perlu rules
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -76,6 +82,7 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
+                                // Jika berhasil, tutup modal dan reload DataTable
                                 $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
@@ -84,6 +91,7 @@
                                 });
                                 $('#table_kontak').DataTable().ajax.reload();
                             } else {
+                                // Jika gagal, tampilkan alert
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
@@ -92,7 +100,7 @@
                             }
                         }
                     });
-                    return false;
+                    return false; // Cegah submit default
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {
